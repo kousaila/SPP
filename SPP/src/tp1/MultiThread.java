@@ -1,4 +1,5 @@
-package tpSPP;
+package tp1;
+
 
 import java.io.ObjectInputStream.GetField;
 
