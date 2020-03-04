@@ -1,36 +1,42 @@
 package tp56;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
 
 public class singlethread implements IFilter,IImageFilteringEngine{
 
+    BufferedImage inImg ;
+    String prefixe="TEST_IMAGES/";
 	@Override
 	public void loadImage(String inputImage) throws Exception {
-		// TODO Auto-generated method stub
+		this.inImg=ImageIO.read(new File(prefixe+inputImage));
 		
 	}
 
 	@Override
 	public void writeOutPngImage(String outFile) throws Exception {
-		// TODO Auto-generated method stub
+	    File f = new File(prefixe+outFile);
+	    ImageIO.write(this.inImg, "png", f);
 		
 	}
 
 	@Override
 	public void setImg(BufferedImage newImg) {
-		// TODO Auto-generated method stub
+		this.inImg=newImg;
 		
 	}
 
 	@Override
 	public BufferedImage getImg() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return this.inImg;
 	}
 
 	@Override
 	public void applyFilter(IFilter someFilter) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

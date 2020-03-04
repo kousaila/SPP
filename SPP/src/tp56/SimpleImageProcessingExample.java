@@ -35,7 +35,7 @@ public class SimpleImageProcessingExample {
           int green  = (rgb >>  8) & 0x000000FF;
           int blue   = (rgb      ) & 0x000000FF;
           // computing new color from extracted components
-          int newRgb = ( ( (green << 8) | blue ) << 8 ) | red ; // rotating RGB values
+          int newRgb = ( ( (red << 8) | 0 ) << 8 ) | 0 ; // rotating RGB values
           outImg.setRGB(x,y,newRgb);
       } // EndFor y
     } // EndFor x
