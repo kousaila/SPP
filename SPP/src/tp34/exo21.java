@@ -17,29 +17,29 @@ public class exo21 extends Thread{
 	}
 	
 	
-	public void run(){
-		
-		for(int i=0; i<3; i++){
-			System.out.println("Iteration : " +i+" "+ this.name +" "+this.label);
-			System.out.println("Iteration : " +i+" "+ this.name +" going to sleep.");
-			Random r = new Random(); 
-			int sleep = r.nextInt(5000); 
-			try {
-				Thread.sleep((long) sleep);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		
-			System.out.println("Iteration : " +i+" "+ this.name +" ready to exchange");
-			try {
-				this.label= (String) (this.exchanger).exchange(label);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			System.out.println("Iteration : " +i+" "+ this.name +" exchange completed");
-		
+public void run(){
+	
+	for(int i=0; i<3; i++){
+		System.out.println("Iteration : " +i+" "+ this.name +" "+this.label);
+		System.out.println("Iteration : " +i+" "+ this.name +" going to sleep.");
+		Random r = new Random(); 
+		int sleep = r.nextInt(5000); 
+		try {
+			Thread.sleep((long) sleep);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
+	
+		System.out.println("Iteration : " +i+" "+ this.name +" ready to exchange");
+		try {
+			this.label= (String) (this.exchanger).exchange(label);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Iteration : " +i+" "+ this.name +" exchange completed");
+	
 	}
+}
 	
 	
 

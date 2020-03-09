@@ -5,9 +5,10 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-public class singlethread implements IFilter,IImageFilteringEngine{
+public class SingleThreadedImageFilteringEngine implements IImageFilteringEngine{
 
-    BufferedImage inImg ;
+    BufferedImage inImg ,outImg;
+    int margin;
     String prefixe="TEST_IMAGES/";
 	@Override
 	public void loadImage(String inputImage) throws Exception {
@@ -36,19 +37,17 @@ public class singlethread implements IFilter,IImageFilteringEngine{
 
 	@Override
 	public void applyFilter(IFilter someFilter) {
-		
-		
-	}
+		margin=someFilter.getMargin();
+		outImg = new BufferedImage(inImg.getWidth()-2*margin,
+				inImg.getHeight()-2*margin,
+				BufferedImage.TYPE_INT_RGB);
+		for (int x = someFilter.getMargin(); x <inImg.getWidth()-someFilter.getMargin(); x++) {
+			for (int y = someFilter.getMargin(); y < outImg.getHeight()-someFilter.getMargin(); y++) {
+				someFilter.applyFilterAtPoint(x, y, inImg,outImg);
+			}
 
-	@Override
-	public int getMargin() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+		}
 
-	@Override
-	public void applyFilterAtPoint(int x, int y, BufferedImage imgIn, BufferedImage imgOut) {
-		// TODO Auto-generated method stub
 		
 	}
 

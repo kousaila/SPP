@@ -31,14 +31,12 @@ public class SemaphoreImpl implements SemaphoreInterface {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			;
-			
+			;		
 		}
-
 	}
 
 	@Override
-	public int releaseAll() {
+	public synchronized int releaseAll() {
 		int temp =waiting; 
 		counter+=waiting; 
 		notifyAll(); 
