@@ -86,7 +86,7 @@ public class Exo3 {
 
 		long endTime = System.currentTimeMillis();
 		System.out.println("le temps d'execution est : " + (endTime - startTime));
-		System.out.println("****************************" + (Id.size()));
+		System.out.println("taille liste :" + (Id.size()));
 
 	}
 
