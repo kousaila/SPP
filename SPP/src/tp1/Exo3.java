@@ -74,10 +74,9 @@ public class Exo3 {
 		for (int i = 0; i < 10; i++) {
 
 			Thread t = new Thread(insert, "Insert");
-
 			t.start();
 		}
-		for (int i = 0; i < 10000; i++) {
+		for (int i = 0; i < 10; i++) {
 
 			// lecture
 			Thread t1 = new Thread(delete, "Delete");

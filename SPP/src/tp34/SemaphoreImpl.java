@@ -14,7 +14,7 @@ public class SemaphoreImpl implements SemaphoreInterface {
 		this.counter++;
 		if (counter <= 0) {
 			notify();
-			if (waiting > 0) {
+			if (waiting >= 0) {
 				waiting--;
 			}
 		}
@@ -32,18 +32,20 @@ public class SemaphoreImpl implements SemaphoreInterface {
 				e.printStackTrace();
 			}
 			;
-			
+
 		}
 
 	}
 
 	@Override
-	public int releaseAll() {
-		int temp =waiting; 
-		counter+=waiting; 
-		notifyAll(); 
-		waiting=0;
-	
+	public synchronized int releaseAll() {
+		int temp = waiting;
+		counter += waiting;
+
+		notifyAll();
+
+		waiting = 0;
+
 		return temp;
 	}
 
