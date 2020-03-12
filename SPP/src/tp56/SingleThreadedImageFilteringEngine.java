@@ -32,7 +32,7 @@ public class SingleThreadedImageFilteringEngine implements IImageFilteringEngine
 	@Override
 	public BufferedImage getImg() {
 		
-		return this.inImg;
+		return this.outImg;
 	}
 
 	@Override
