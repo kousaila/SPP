@@ -2,50 +2,45 @@ package tp1;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Exo32 {
 
 	static long count = 0;
 	static List<Integer> Id=new ArrayList<Integer>();
 
-	public static Runnable lecture() {
+	public static Runnable lecture() throws InterruptedException {
 		Runnable lecture = () -> {
-			try {
-				for (int i = 0; i < 1000; i++) {
+			for (int i = 0; i < 1000; i++) {
 
-					if (i % 200 == 0) {
+				if (i % 200 == 0) {
 //						mylock.lockRead();
 //						Thread.currentThread().sleep(1);
-						long loc = count;
+					long loc = count;
 
-						System.out.println(Thread.currentThread().getId() + " : " + loc);
+					System.out.println(Thread.currentThread().getId() + " : " + loc);
 //						mylock.unlockRead();
-					}
-
 				}
 
-			} catch (InterruptedException e) {
-				// e.printStackTrace();
 			}
 
 		};
 		return lecture;
 	}
 
+	@SuppressWarnings("static-access")
 	static Runnable ecriture = () -> {
 
 		for (int i = 0; i < 1000; i++) {
 
 			try {
-				mylock.lockWrite();
+				//mylock.lockWrite();
 				Thread.currentThread().sleep(1);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 
 			count++;
-			mylock.unlockWrite();
+			//mylock.unlockWrite();
 		}
 	};
 

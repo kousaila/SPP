@@ -5,7 +5,7 @@ package tp1;
 
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 
 /**
  * @author sievi

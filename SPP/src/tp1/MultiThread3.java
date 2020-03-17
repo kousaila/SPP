@@ -8,6 +8,7 @@ public class MultiThread3 {
 	static ReentrantReadWriteLock myLock = new ReentrantReadWriteLock();
 
 	public static Runnable lecture() {
+		@SuppressWarnings("static-access")
 		Runnable lecture = () -> {
 			try {
 				for (int i = 0; i < 1000; i++) {
@@ -31,6 +32,7 @@ public class MultiThread3 {
 		return lecture;
 	}
 
+	@SuppressWarnings("static-access")
 	public static Runnable ecriture() {
 		Runnable ecriture = () -> {
 			try {

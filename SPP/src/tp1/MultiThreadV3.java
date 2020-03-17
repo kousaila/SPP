@@ -9,6 +9,7 @@ public class MultiThreadV3 extends Thread {
 	public static ReadWriteLock rwlock = new ReentrantReadWriteLock();
 	public static Lock r=rwlock.readLock();
 	public static Lock w=rwlock.writeLock();
+	@SuppressWarnings("static-access")
 	public void run() {
 		for (int i = 0; i < 1000; i++) {
 			w.lock();

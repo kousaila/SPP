@@ -18,6 +18,7 @@ public class Cc {
 
 	public static void main(String[] args) {
 		Cc ba = new Cc();
+		@SuppressWarnings("unused")
 		Cc baOther = new Cc();
 		ba.incPair(ba);
 		System.out.println(ba.counter);

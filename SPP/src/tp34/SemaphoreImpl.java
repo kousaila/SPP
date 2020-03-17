@@ -31,10 +31,8 @@ public class SemaphoreImpl implements SemaphoreInterface {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			;
 
 		}
-
 	}
 
 	@Override

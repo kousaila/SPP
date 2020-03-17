@@ -10,6 +10,7 @@ package tp56;
  */
 
 import java.awt.image.*;
+import java.io.IOException;
 
 /**
  * @author Francois Taiani   <francois.taiani@irisa.fr>
@@ -20,6 +21,6 @@ public interface IImageFilteringEngine {
   public void writeOutPngImage(String outFile) throws Exception ;
   public void setImg(BufferedImage newImg) ;
   public BufferedImage getImg() ;
-  public void applyFilter(IFilter someFilter) ;
+  public void applyFilter(IFilter someFilter) throws IOException ;
   
 } // EndInterface IImageFilteringEngine

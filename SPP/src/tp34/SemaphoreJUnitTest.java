@@ -8,7 +8,8 @@ import static org.junit.Assert.*;
 
 public class SemaphoreJUnitTest {
 
-  private Class mySemImpl;
+  @SuppressWarnings("rawtypes")
+private Class mySemImpl;
 
   @Before
   public void obtainSemaphoreImplementation() 
@@ -17,7 +18,8 @@ public class SemaphoreJUnitTest {
     
   }
 
-  private SemaphoreInterface createSemaphore() 
+  @SuppressWarnings("deprecation")
+private SemaphoreInterface createSemaphore() 
     throws InstantiationException, IllegalAccessException, ClassNotFoundException {
     return (SemaphoreInterface)mySemImpl.newInstance();
   }

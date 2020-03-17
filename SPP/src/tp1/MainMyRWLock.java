@@ -1,13 +1,12 @@
 package tp1;
 
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 public class MainMyRWLock {
 
 	static long count = 0;
 	static MyRWLock mylock = new MyRWLock();
 
 	public static Runnable lecture() {
+		@SuppressWarnings("static-access")
 		Runnable lecture = () -> {
 			try {
 				for (int i = 0; i < 1000; i++) {
@@ -31,6 +30,7 @@ public class MainMyRWLock {
 		return lecture;
 	}
 
+	@SuppressWarnings("static-access")
 	static Runnable ecriture = () -> {
 
 		for (int i = 0; i < 1000; i++) {
