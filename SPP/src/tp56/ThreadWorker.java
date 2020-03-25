@@ -14,13 +14,13 @@ public class ThreadWorker extends Thread {
 	int debut;
 	int fin;
 	IFilter filter;
-	int number;
+	String name;
 
-	public ThreadWorker(int number, int deb, int end, IFilter someFilter) {
+	public ThreadWorker(String name, int deb, int end, IFilter someFilter) {
 		this.debut = deb;
 		this.fin = end;
 		this.filter = someFilter;
-		this.number = number;
+		this.name = name;
 	}
 
 	public ThreadWorker() {
@@ -33,11 +33,10 @@ public class ThreadWorker extends Thread {
 			try {
 				MultiThreadedImageFilteringEngine.barrier.await();
 			} catch (InterruptedException | BrokenBarrierException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
-			for (int y = this.debut; y < this.fin; y++) {
+			for (int y = this.debut; y <this.fin; y++) {
 				for (int x = this.filter.getMargin(); x < MultiThreadedImageFilteringEngine.imgIn.getWidth()
 						- this.filter.getMargin(); x++) {
 					this.filter.applyFilterAtPoint(x, y, MultiThreadedImageFilteringEngine.imgIn,

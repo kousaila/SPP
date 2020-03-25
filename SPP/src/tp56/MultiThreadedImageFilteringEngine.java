@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
  */
 public class MultiThreadedImageFilteringEngine implements IImageFilteringEngine {
 
-	private int numberThread;
+	private static int numberThread;
 	static CyclicBarrier barrier;
 	static CyclicBarrier barrier2;
 	static BufferedImage imgIn;
@@ -27,11 +27,11 @@ public class MultiThreadedImageFilteringEngine implements IImageFilteringEngine 
 	String image = "15226222451_5fd668d81a_c.jpg";
 
 	public MultiThreadedImageFilteringEngine(int p) {
-		this.numberThread = p;
+		MultiThreadedImageFilteringEngine.numberThread = p;
 
 		// initialisation des barrières
-		barrier = new CyclicBarrier(p + 1);
-		barrier2 = new CyclicBarrier(p + 1);
+		barrier = new CyclicBarrier(p);
+		barrier2 = new CyclicBarrier(p);
 
 	}
 
@@ -45,7 +45,7 @@ public class MultiThreadedImageFilteringEngine implements IImageFilteringEngine 
 	public void writeOutPngImage(String outFile) throws Exception {
 
 		File f = new File(prefixe + outFile);
-		ImageIO.write(MultiThreadedImageFilteringEngine.imgIn, "png", f);
+		ImageIO.write(MultiThreadedImageFilteringEngine.imgOut, "png", f);
 
 	}
 
@@ -59,34 +59,57 @@ public class MultiThreadedImageFilteringEngine implements IImageFilteringEngine 
 	@Override
 	public BufferedImage getImg() {
 
-		return MultiThreadedImageFilteringEngine.imgIn;
+		return MultiThreadedImageFilteringEngine.imgOut;
 	}
 
 	@Override
 	public void applyFilter(IFilter someFilter) throws IOException {
-		
+
 		int sizeDeb = someFilter.getMargin();
 		imgOut = new BufferedImage(imgIn.getWidth() - 2 * someFilter.getMargin(),
 				imgIn.getHeight() - 2 * someFilter.getMargin(), BufferedImage.TYPE_INT_RGB);
-		int marge = ((imgOut.getHeight() - 2 * someFilter.getMargin()) / this.numberThread);
+		int marge = ((imgOut.getHeight() - 2 * someFilter.getMargin())
+				/ (MultiThreadedImageFilteringEngine.numberThread));
 		int sizeEnd = sizeDeb + marge;
+		if (marge * MultiThreadedImageFilteringEngine.numberThread == imgOut.getHeight()) {
 
-		for (int i = 0; i < this.numberThread; i++) {
-			ThreadWorker g = new ThreadWorker(i, sizeDeb, sizeEnd, someFilter);
-			Thread t = new Thread(g);
-			t.start();
-			sizeDeb = sizeEnd;
-			sizeEnd += marge;
-			// someFilterA=someFilter;
+			for (int i = 0; i < MultiThreadedImageFilteringEngine.numberThread; i++) {
+				System.out.println(sizeDeb + "  " + sizeEnd);
+				ThreadWorker g = new ThreadWorker("t" + i, sizeDeb, sizeEnd, someFilter);
+				Thread t = new Thread(g);
+				t.start();
+				sizeDeb = sizeEnd;
+				sizeEnd += marge;
+				// System.out.println(sizeDeb+" "+sizeEnd);
+				// someFilterA=someFilter;
 //			threadWorking[i].setFilter(someFilter); 
 //			//attribut filter
 //			threadWorking[i].setDebut(size);
 //			
 //			sizeEnd += ((imgOut.getHeight() - someFilter.getMargin()) / this.numberThread);
 //			threadWorking[i].setFin(size);
-			System.out.println("thread" + g.number);
-		}
+				System.out.println("thread" + g.name);
 
+			}
+
+		} else {
+			System.out.println("nombre de thread pas diviseur de l'image");
+			for (int i = 0; i < MultiThreadedImageFilteringEngine.numberThread; i++) {
+				System.out.println(sizeDeb + "  " + sizeEnd);
+				ThreadWorker g = new ThreadWorker("t" + (i + 1), sizeDeb, sizeEnd, someFilter);
+				Thread t = new Thread(g);
+				t.start();
+				sizeDeb = sizeEnd;
+				if (MultiThreadedImageFilteringEngine.numberThread - 2 == i) {
+					sizeEnd = imgOut.getHeight();
+				} else {
+					sizeEnd += marge;
+				}
+				System.out.println("thread" + g.name);
+
+			}
+
+		}
 		try {
 			barrier.await();
 		} catch (InterruptedException | BrokenBarrierException e) {
@@ -98,8 +121,7 @@ public class MultiThreadedImageFilteringEngine implements IImageFilteringEngine 
 		} catch (InterruptedException | BrokenBarrierException e) {
 			e.printStackTrace();
 		}
-		
-	}
 
+	}
 
 }
