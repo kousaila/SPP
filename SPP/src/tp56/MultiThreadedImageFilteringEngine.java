@@ -71,43 +71,24 @@ public class MultiThreadedImageFilteringEngine implements IImageFilteringEngine 
 		int marge = ((imgOut.getHeight() - 2 * someFilter.getMargin())
 				/ (MultiThreadedImageFilteringEngine.numberThread));
 		int sizeEnd = sizeDeb + marge;
-		if (marge * MultiThreadedImageFilteringEngine.numberThread == imgOut.getHeight()) {
+		//debut temps
+		int debut=(int) System.currentTimeMillis();
+		
+		for (int i = 0; i < MultiThreadedImageFilteringEngine.numberThread; i++) {
+			System.out.println(sizeDeb + "  " + sizeEnd);
+			ThreadWorker g = new ThreadWorker("t" + i, sizeDeb, sizeEnd, someFilter);
+			Thread t = new Thread(g);
+			t.start();
+			sizeDeb = sizeEnd;
+			sizeEnd += marge;
 
-			for (int i = 0; i < MultiThreadedImageFilteringEngine.numberThread; i++) {
-				System.out.println(sizeDeb + "  " + sizeEnd);
-				ThreadWorker g = new ThreadWorker("t" + i, sizeDeb, sizeEnd, someFilter);
-				Thread t = new Thread(g);
-				t.start();
-				sizeDeb = sizeEnd;
-				sizeEnd += marge;
-				// System.out.println(sizeDeb+" "+sizeEnd);
-				// someFilterA=someFilter;
-//			threadWorking[i].setFilter(someFilter); 
-//			//attribut filter
-//			threadWorking[i].setDebut(size);
-//			
-//			sizeEnd += ((imgOut.getHeight() - someFilter.getMargin()) / this.numberThread);
-//			threadWorking[i].setFin(size);
-				System.out.println("thread" + g.name);
-
-			}
-
-		} else {
-			System.out.println("nombre de thread pas diviseur de l'image");
-			for (int i = 0; i < MultiThreadedImageFilteringEngine.numberThread; i++) {
-				System.out.println(sizeDeb + "  " + sizeEnd);
-				ThreadWorker g = new ThreadWorker("t" + (i + 1), sizeDeb, sizeEnd, someFilter);
-				Thread t = new Thread(g);
-				t.start();
-				sizeDeb = sizeEnd;
-				if (MultiThreadedImageFilteringEngine.numberThread - 2 == i) {
+			if (marge * MultiThreadedImageFilteringEngine.numberThread != imgOut.getHeight()) {
+				if (i == MultiThreadedImageFilteringEngine.numberThread - 2) {
 					sizeEnd = imgOut.getHeight();
-				} else {
-					sizeEnd += marge;
 				}
-				System.out.println("thread" + g.name);
-
 			}
+
+			System.out.println("thread" + g.name);
 
 		}
 		try {
@@ -121,6 +102,9 @@ public class MultiThreadedImageFilteringEngine implements IImageFilteringEngine 
 		} catch (InterruptedException | BrokenBarrierException e) {
 			e.printStackTrace();
 		}
+		
+		int fin=(int) System.currentTimeMillis();
+		System.out.println(fin-debut+" ms");
 
 	}
 

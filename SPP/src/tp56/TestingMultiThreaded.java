@@ -166,7 +166,7 @@ public class TestingMultiThreaded {
 	 */
 	@Test
 	public void testApplyFilterGray() throws Exception {
-		MultiThreadedImageFilteringEngine imtotest= new MultiThreadedImageFilteringEngine(8);
+		MultiThreadedImageFilteringEngine imtotest= new MultiThreadedImageFilteringEngine(112);
 		imtotest.loadImage(originalpath);
 		imtotest.applyFilter(new GrayFilter());
 		imtotest.writeOutPngImage("gen1.png");
