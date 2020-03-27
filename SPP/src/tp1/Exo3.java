@@ -14,7 +14,7 @@ public class Exo3 {
 		for (int i = 0; i < 1000; i++) {
 			Id.add(a, Thread.currentThread().getId());
 			System.out.println(Thread.currentThread().getId() + " : " + a);
-			S
+			
 		}
 
 	};
