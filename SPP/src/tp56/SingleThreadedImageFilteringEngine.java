@@ -19,13 +19,13 @@ public class SingleThreadedImageFilteringEngine implements IImageFilteringEngine
 	@Override
 	public void writeOutPngImage(String outFile) throws Exception {
 	    File f = new File(prefixe+outFile);
-	    ImageIO.write(this.inImg, "png", f);
+	    ImageIO.write(this.outImg, "png", f);
 		
 	}
 
 	@Override
 	public void setImg(BufferedImage newImg) {
-		this.inImg=newImg;
+		this.outImg=newImg;
 		
 	}
 

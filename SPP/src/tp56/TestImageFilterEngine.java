@@ -21,10 +21,11 @@ import org.junit.Test;
  *
  */
 public class TestImageFilterEngine {
-
+// initialisation des images
 	String originalpath="15226222451_5fd668d81a_c.jpg";
 	String grayImgpath="TEST_IMAGES/15226222451_5fd668d81a_c_gray.png";
 	String gaussianImgpath="TEST_IMAGES/15226222451_5fd668d81a_c_gaussian_contour.png";
+	
 	private static boolean compareImages(BufferedImage set,BufferedImage original) {
 		boolean res=true;
 		if (set.getWidth()!=original.getWidth()||set.getHeight()!=original.getHeight()){
@@ -108,6 +109,7 @@ public class TestImageFilterEngine {
 		IImageFilteringEngine imtotest= new SingleThreadedImageFilteringEngine();
 		imtotest.loadImage(originalpath);
 		imtotest.applyFilter(new GrayFilter());
+		imtotest.writeOutPngImage("genaratedGray.png");
 		BufferedImage grayimg  = ImageIO.read(new File(grayImgpath));
 		assertTrue(compareImages(grayimg, imtotest.getImg()));
 		
@@ -118,8 +120,8 @@ public class TestImageFilterEngine {
 		imtotest.loadImage(originalpath);
 		imtotest.applyFilter(new GaussianContourExtractorFilter());
 		imtotest.writeOutPngImage("genaratedGaussian.png");
-		BufferedImage grayimg  = ImageIO.read(new File(gaussianImgpath));
-		assertTrue(compareImages(imtotest.getImg(),grayimg));
+		BufferedImage gaussianim  = ImageIO.read(new File(gaussianImgpath));
+		assertTrue(compareImages(imtotest.getImg(),gaussianim));
 	}
 
 
