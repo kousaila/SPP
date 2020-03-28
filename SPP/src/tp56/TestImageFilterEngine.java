@@ -22,6 +22,7 @@ import org.junit.Test;
  */
 public class TestImageFilterEngine {
 // initialisation des images
+	String graytoLoad="15226222451_5fd668d81a_c_gray.png";
 	String originalpath="15226222451_5fd668d81a_c.jpg";
 	String grayImgpath="TEST_IMAGES/15226222451_5fd668d81a_c_gray.png";
 	String gaussianImgpath="TEST_IMAGES/15226222451_5fd668d81a_c_gaussian_contour.png";
@@ -117,7 +118,7 @@ public class TestImageFilterEngine {
 	@Test
 	public void testApplyFilterGaussian() throws Exception {
 		IImageFilteringEngine imtotest= new SingleThreadedImageFilteringEngine();
-		imtotest.loadImage(originalpath);
+		imtotest.loadImage(graytoLoad);
 		imtotest.applyFilter(new GaussianContourExtractorFilter());
 		imtotest.writeOutPngImage("genaratedGaussian.png");
 		BufferedImage gaussianim  = ImageIO.read(new File(gaussianImgpath));
