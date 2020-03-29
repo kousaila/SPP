@@ -7,6 +7,7 @@ public class Exo32 {
 
 	static long count = 0;
 	static List<Integer> Id=new ArrayList<Integer>();
+	private static Object mylock;
 
 	public static Runnable lecture() throws InterruptedException {
 		Runnable lecture = () -> {
