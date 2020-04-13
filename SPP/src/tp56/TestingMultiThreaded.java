@@ -93,7 +93,7 @@ public class TestingMultiThreaded {
 	}
 	@Test
 	public void testApplyFilterGaussian() throws Exception {
-		IImageFilteringEngine imtotestA= new MultiThreadedImageFilteringEngine(19);
+		IImageFilteringEngine imtotestA= new MultiThreadedImageFilteringEngine(2);
 		imtotestA.loadImage(graytoLoad);
 		imtotestA.applyFilter(new GaussianContourExtractorFilter());
 		imtotestA.writeOutPngImage("genaratedGaussian1.png");

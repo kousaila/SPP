@@ -36,14 +36,15 @@ public class ThreadWorker implements Runnable {
 			} catch (InterruptedException | BrokenBarrierException e) {
 //				return;
 			}
-
-			for (int y = this.debut; y < this.fin; y++) {
-				for (int x = this.filter.getMargin(); x < MultiThreadedImageFilteringEngine.imgIn.getWidth()
-						- this.filter.getMargin(); x++) {
-					this.filter.applyFilterAtPoint(x, y, MultiThreadedImageFilteringEngine.imgIn,
-							MultiThreadedImageFilteringEngine.imgOut);
+				for (int y = this.debut; y < this.fin; y++) {
+					for (int x = this.filter.getMargin(); x < MultiThreadedImageFilteringEngine.imgIn.getWidth()
+							- this.filter.getMargin(); x++) {
+						this.filter.applyFilterAtPoint(x, y, MultiThreadedImageFilteringEngine.imgIn,
+								MultiThreadedImageFilteringEngine.imgOut);
+					}
 				}
-			}
+
+			
 			try {
 				MultiThreadedImageFilteringEngine.barrier2.await();
 			} catch (InterruptedException | BrokenBarrierException e) {

@@ -30,8 +30,8 @@ public class MultiThreadedImageFilteringEngine implements IImageFilteringEngine 
 		MultiThreadedImageFilteringEngine.numberThread = p;
 
 		// initialisation des barrières
-		barrier = new CyclicBarrier(p + 1);
-		barrier2 = new CyclicBarrier(p + 1);
+		barrier = new CyclicBarrier(p);
+		barrier2 = new CyclicBarrier(p);
 
 	}
 
@@ -63,19 +63,16 @@ public class MultiThreadedImageFilteringEngine implements IImageFilteringEngine 
 	}
 
 	@Override
-	public void applyFilter(IFilter someFilter) throws IOException {
+	public synchronized void applyFilter(IFilter someFilter) throws IOException {
 
 		int sizeDeb = someFilter.getMargin();
 		imgOut = new BufferedImage(imgIn.getWidth() - 2 * someFilter.getMargin(),
 				imgIn.getHeight() - 2 * someFilter.getMargin(), BufferedImage.TYPE_INT_RGB);
 		int marge = (imgOut.getHeight()) / MultiThreadedImageFilteringEngine.numberThread;
 		int sizeEnd = sizeDeb + marge;
-		if (MultiThreadedImageFilteringEngine.numberThread == 1) {
-			sizeEnd = imgOut.getHeight() + someFilter.getMargin();
-		}
-//		System.out.println(imgOut.getHeight());
+
 		for (int i = 0; i < MultiThreadedImageFilteringEngine.numberThread; i++) {
-			System.out.println(sizeDeb + "  " + sizeEnd);
+//			System.out.println(sizeDeb + "  " + sizeEnd);
 			ThreadWorker g = new ThreadWorker("t" + i, sizeDeb, sizeEnd, someFilter);
 			Thread t = new Thread(g);
 			t.start();
@@ -88,21 +85,25 @@ public class MultiThreadedImageFilteringEngine implements IImageFilteringEngine 
 				}
 			}
 
-			System.out.println("thread" + g.name);
+//			System.out.println("thread" + g.name);
 			t.interrupt();
-		}
-		try {
-			barrier.await();
-		} catch (InterruptedException | BrokenBarrierException e) {
-//			e.printStackTrace();
 		}
 
 		try {
-			barrier2.await();
+			this.barrier.await();
 		} catch (InterruptedException | BrokenBarrierException e) {
 //			e.printStackTrace();
+
+		}
+
+		try {
+			this.barrier2.await();
+		} catch (InterruptedException | BrokenBarrierException e) {
+
 		}
 //
+		this.barrier.reset();
+		this.barrier2.reset();
 //		int fin = (int) System.currentTimeMillis();
 //		System.out.println(fin - debut + " ms");
 
