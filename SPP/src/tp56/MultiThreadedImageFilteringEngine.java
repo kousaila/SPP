@@ -30,8 +30,8 @@ public class MultiThreadedImageFilteringEngine implements IImageFilteringEngine 
 		MultiThreadedImageFilteringEngine.numberThread = p;
 
 		// initialisation des barrières
-		barrier = new CyclicBarrier(p);
-		barrier2 = new CyclicBarrier(p);
+		barrier = new CyclicBarrier(p + 1);
+		barrier2 = new CyclicBarrier(p + 1);
 
 	}
 
@@ -68,12 +68,12 @@ public class MultiThreadedImageFilteringEngine implements IImageFilteringEngine 
 		int sizeDeb = someFilter.getMargin();
 		imgOut = new BufferedImage(imgIn.getWidth() - 2 * someFilter.getMargin(),
 				imgIn.getHeight() - 2 * someFilter.getMargin(), BufferedImage.TYPE_INT_RGB);
-		int marge = ((imgOut.getHeight() - 2 * someFilter.getMargin())
-				/ (MultiThreadedImageFilteringEngine.numberThread));
+		int marge = (imgOut.getHeight()) / MultiThreadedImageFilteringEngine.numberThread;
 		int sizeEnd = sizeDeb + marge;
-		//debut temps
-		int debut=(int) System.currentTimeMillis();
-		
+		if (MultiThreadedImageFilteringEngine.numberThread == 1) {
+			sizeEnd = imgOut.getHeight() + someFilter.getMargin();
+		}
+//		System.out.println(imgOut.getHeight());
 		for (int i = 0; i < MultiThreadedImageFilteringEngine.numberThread; i++) {
 			System.out.println(sizeDeb + "  " + sizeEnd);
 			ThreadWorker g = new ThreadWorker("t" + i, sizeDeb, sizeEnd, someFilter);
@@ -84,27 +84,27 @@ public class MultiThreadedImageFilteringEngine implements IImageFilteringEngine 
 
 			if (marge * MultiThreadedImageFilteringEngine.numberThread != imgOut.getHeight()) {
 				if (i == MultiThreadedImageFilteringEngine.numberThread - 2) {
-					sizeEnd = imgOut.getHeight();
+					sizeEnd = imgOut.getHeight() + someFilter.getMargin();
 				}
 			}
 
 			System.out.println("thread" + g.name);
-
+			t.interrupt();
 		}
 		try {
 			barrier.await();
 		} catch (InterruptedException | BrokenBarrierException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 
 		try {
 			barrier2.await();
 		} catch (InterruptedException | BrokenBarrierException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
-		
-		int fin=(int) System.currentTimeMillis();
-		System.out.println(fin-debut+" ms");
+//
+//		int fin = (int) System.currentTimeMillis();
+//		System.out.println(fin - debut + " ms");
 
 	}
 

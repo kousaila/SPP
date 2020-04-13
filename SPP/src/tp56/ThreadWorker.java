@@ -9,7 +9,7 @@ import java.util.concurrent.BrokenBarrierException;
  * @author sievi
  *
  */
-public class ThreadWorker extends Thread {
+public class ThreadWorker implements Runnable {
 
 	int debut;
 	int fin;
@@ -27,16 +27,17 @@ public class ThreadWorker extends Thread {
 
 	}
 
-	public void run() {
+	@Override
+	public synchronized void run() {
 
 		while (true) {
 			try {
 				MultiThreadedImageFilteringEngine.barrier.await();
 			} catch (InterruptedException | BrokenBarrierException e) {
-				e.printStackTrace();
+//				return;
 			}
 
-			for (int y = this.debut; y <this.fin; y++) {
+			for (int y = this.debut; y < this.fin; y++) {
 				for (int x = this.filter.getMargin(); x < MultiThreadedImageFilteringEngine.imgIn.getWidth()
 						- this.filter.getMargin(); x++) {
 					this.filter.applyFilterAtPoint(x, y, MultiThreadedImageFilteringEngine.imgIn,
@@ -46,8 +47,7 @@ public class ThreadWorker extends Thread {
 			try {
 				MultiThreadedImageFilteringEngine.barrier2.await();
 			} catch (InterruptedException | BrokenBarrierException e) {
-
-				e.printStackTrace();
+				return;
 			}
 		}
 	}
