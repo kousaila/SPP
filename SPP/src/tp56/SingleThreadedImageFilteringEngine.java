@@ -42,13 +42,23 @@ public class SingleThreadedImageFilteringEngine implements IImageFilteringEngine
 				inImg.getHeight()-2*margin,
 				BufferedImage.TYPE_INT_RGB);
 		for (int x = someFilter.getMargin(); x <inImg.getWidth()-someFilter.getMargin(); x++) {
-			for (int y = someFilter.getMargin(); y < outImg.getHeight()-someFilter.getMargin(); y++) {
+			for (int y = someFilter.getMargin(); y < inImg.getHeight()-someFilter.getMargin(); y++) {
 				someFilter.applyFilterAtPoint(x, y, inImg,outImg);
 			}
 
 		}
-
-		
-	}
+		this.inImg = this.outImg;
+//        this.outImg = new BufferedImage(this.inImg.getWidth() - 2 * someFilter.getMargin(),
+//                this.inImg.getHeight() - 2 * someFilter.getMargin(),
+//                BufferedImage.TYPE_INT_RGB);
+//
+//        for(int x = someFilter.getMargin(); x < this.inImg.getWidth() - someFilter.getMargin(); x++) {
+//            for(int y = someFilter.getMargin(); y < this.inImg.getHeight() - someFilter.getMargin(); y++) {
+//                someFilter.applyFilterAtPoint(x, y, this.inImg, this.outImg);
+//            }
+//        }
+//        this.inImg = this.outImg;
+//		
+		}
 
 }
